@@ -1,1 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteelHub — 환봉 재고 거래 플랫폼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh}
+.header{background:#fff;border-bottom:1px solid #e5e5e0;padding:0 24px;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;color:#1a1a1a;text-decoration:none}
+.logo-icon{width:32px;height:32px;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.nav-btns{display:flex;gap:8px}
+.btn{padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid #e5e5e0;background:#fff;color:#1a1a1a;font-weight:500;transition:all .15s}
+.btn:hover{background:#f5f5f0}
+.btn-dark{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.btn-dark:hover{background:#333}
+.hero{background:#1a1a1a;color:#fff;padding:56px 24px;text-align:center}
+.hero h1{font-size:36px;font-weight:700;margin-bottom:12px;letter-spacing:-0.5px}
+.hero p{font-size:16px;color:#999;margin-bottom:32px}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-white{padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:#1a1a1a;border:none;transition:opacity .15s}
+.btn-white:hover{opacity:.88}
+.btn-outline-white{padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#fff;border:1px solid #444;transition:background .15s}
+.btn-outline-white:hover{background:#222}
+.stats{background:#fff;border-bottom:1px solid #e5e5e0;padding:16px 24px}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{text-align:center}
+.stat-val{font-size:22px;font-weight:700;color:#1a1a1a}
+.stat-label{font-size:12px;color:#888;margin-top:2px}
+.main{max-width:1100px;margin:0 auto;padding:24px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #e5e5e0;margin-bottom:20px}
+.tab{padding:10px 20px;font-size:14px;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;color:#888;font-weight:500;transition:all .15s}
+.tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a}
+.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:180px}
+.search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;font-size:15px}
+.search-input{width:100%;padding:8px 10px 8px 32px;border:1px solid #e5e5e0;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a}
+.select{padding:8px 12px;border:1px solid #e5e5e0;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:16px 18px;transition:border-color .15s}
+.card:hover{border-color:#aaa}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.badge{padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.b316{background:#e8f0ff;color:#2563eb}
+.b304{background:#e8f8f0;color:#16a34a}
+.biron{background:#f5f5f0;color:#666;border:1px solid #e5e5e0}
+.urgent{background:#fff0ed;color:#dc2626;font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600}
+.card-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.card-meta{font-size:12px;color:#888;display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.spec{background:#f5f5f0;border-radius:6px;padding:6px 10px}
+.spec-label{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.4px}
+.spec-val{font-size:13px;font-weight:600;color:#1a1a1a;margin-top:1px}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #f0f0ec}
+.price{font-size:17px;font-weight:700;color:#1a1a1a}
+.price span{font-size:12px;font-weight:400;color:#888}
+.card-actions{display:flex;gap:6px}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px;cursor:pointer;border:1px solid #e5e5e0;background:#fff;color:#1a1a1a;font-weight:500;transition:background .15s}
+.btn-sm:hover{background:#f5f5f0}
+.btn-contact{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.btn-contact:hover{background:#333}
+.panel{display:none}
+.panel.active{display:block}
+.form-box{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:24px;max-width:600px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-full{grid-column:1/-1}
+.form-label{font-size:12px;color:#666;margin-bottom:5px;display:block;font-weight:500}
+.form-input{width:100%;padding:9px 12px;border:1px solid #e5e5e0;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fff}
+.form-input:focus{outline:none;border-color:#1a1a1a}
+.success{display:none;padding:10px 14px;background:#e8f8f0;border-radius:8px;font-size:13px;color:#16a34a;margin-bottom:14px;align-items:center;gap:8px}
+.success.show{display:flex}
+.modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;width:380px;max-width:92vw}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:#888;line-height:1}
+.modal-item{background:#f5f5f0;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#666}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+footer{background:#1a1a1a;color:#888;text-align:center;padding:24px;font-size:13px;margin-top:40px}
+@media(max-width:600px){.hero h1{font-size:26px}.stats-inner{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
 
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon"><i class="ti ti-cut"></i></div>
+      SteelHub
+    </a>
+    <div class="nav-btns">
+      <button class="btn" onclick="showTab('request')">구매 요청</button>
+      <button class="btn btn-dark" onclick="showTab('post')">재고 등록</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>환봉 악성재고,<br>빠르게 연결합니다</h1>
+  <p>STS 316 · STS 304 · 일반철 환봉 전문 B2B 거래 플랫폼</p>
+  <div class="hero-btns">
+    <button class="btn-white" onclick="showTab('market')">재고 둘러보기</button>
+    <button class="btn-outline-white" onclick="showTab('post')">내 재고 등록하기</button>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-val">24</div><div class="stat-label">등록 재고</div></div>
+    <div class="stat"><div class="stat-val">8</div><div class="stat-label">STS 316</div></div>
+    <div class="stat"><div class="stat-val">11</div><div class="stat-label">STS 304</div></div>
+    <div class="stat"><div class="stat-val" style="color:#dc2626">5</div><div class="stat-label">긴급 처분</div></div>
+  </div>
+</section>
+
+<main class="main">
+  <div class="tabs">
+    <button class="tab active" id="tab-market" onclick="showTab('market')">재고 시장</button>
+    <button class="tab" id="tab-request" onclick="showTab('request')">구매 요청</button>
+    <button class="tab" id="tab-post" onclick="showTab('post')">재고 등록</button>
+  </div>
+
+  <div id="panel-market" class="panel active">
+    <div class="filters">
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input class="search-input" type="text" placeholder="규격, 재질, 지역 검색..." id="searchInput" oninput="filterCards()">
+      </div>
+      <select class="select" id="gradeFilter" onchange="filterCards()">
+        <option value="">전체 재질</option>
+        <option value="316">STS 316</option>
+        <option value="304">STS 304</option>
+        <option value="iron">일반철</option>
+      </select>
+      <select class="select" id="urgentFilter" onchange="filterCards()">
+        <option value="">전체</option>
+        <option value="urgent">긴급 처분</option>
+      </select>
+      <select class="select" id="sortFilter" onchange="filterCards()">
+        <option value="newest">최신순</option>
+        <option value="price">가격 낮은순</option>
+        <option value="qty">수량 많은순</option>
+      </select>
+    </div>
+    <p style="font-size:13px;color:#888;margin-bottom:14px" id="result-count">24건의 재고</p>
+    <div class="grid" id="cardGrid"></div>
+  </div>
+
+  <div id="panel-request" class="panel">
+    <div class="form-box">
+      <div class="success" id="req-success"><i class="ti ti-check"></i> 구매 요청이 등록되었습니다.</div>
+      <div class="form-grid">
+        <div><label class="form-label">재질</label><select class="form-input" id="req-grade"><option>STS 316</option><option>STS 304</option><option>일반철</option></select></div>
+        <div><label class="form-label">규격</label><input class="form-input" type="text" id="req-spec" placeholder="φ50"></div>
+        <div><label class="form-label">수량 (kg)</label><input class="form-input" type="number" id="req-qty" placeholder="500"></div>
+        <div><label class="form-label">희망 단가 (원/kg)</label><input class="form-input" type="number" id="req-price" placeholder="4500"></div>
+        <div class="form-full"><label class="form-label">절단 사양</label><input class="form-input" type="text" id="req-cut" placeholder="100mm 절단, 정척 등"></div>
+        <div><label class="form-label">지역</label><input class="form-input" type="text" id="req-region" placeholder="부산, 경남"></div>
+        <div><label class="form-label">연락처</label><input class="form-input" type="text" id="req-contact" placeholder="010-XXXX-XXXX"></div>
+        <div class="form-full"><label class="form-label">기타 요청사항</label><input class="form-input" type="text" id="req-note" placeholder="납기, 인증서 등"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:16px">
+        <button class="btn btn-dark" onclick="submitRequest()">구매 요청 등록</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-post" class="panel">
+    <div class="form-box">
+      <div class="success" id="post-success"><i class="ti ti-check"></i> 재고가 등록되었습니다.</div>
+      <div class="form-grid">
+        <div><label class="form-label">재질</label><select class="form-input" id="post-grade"><option>STS 316</option><option>STS 304</option><option>일반철</option></select></div>
+        <div><label class="form-label">규격</label><input class="form-input" type="text" id="post-spec" placeholder="φ50"></div>
+        <div><label class="form-label">수량 (kg)</label><input class="form-input" type="number" id="post-qty" placeholder="1000"></div>
+        <div><label class="form-label">판매가 (원/kg)</label><input class="form-input" type="number" id="post-price" placeholder="5000"></div>
+        <div><label class="form-label">절단</label><select class="form-input" id="post-cut"><option>절단 가능</option><option>정척만</option><option>협의</option></select></div>
+        <div><label class="form-label">긴급 처분</label><select class="form-input" id="post-urgent"><option value="">일반</option><option value="urgent">긴급 처분</option></select></div>
+        <div><label class="form-label">지역</label><input class="form-input" type="text" id="post-region" placeholder="부산 사상구"></div>
+        <div><label class="form-label">연락처</label><input class="form-input" type="text" id="post-contact" placeholder="010-XXXX-XXXX"></div>
+        <div class="form-full"><label class="form-label">비고</label><input class="form-input" type="text" id="post-note" placeholder="밀시트 여부, 특이사항 등"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:16px">
+        <button class="btn btn-dark" onclick="submitPost()">재고 등록</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-bg" id="contactModal">
+  <div class="modal">
+    <div class="modal-title">거래 문의 <button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-item" id="modal-info"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div><label class="form-label">회사명/담당자</label><input class="form-input" type="text" id="c-name" placeholder="(주)한국철강 / 홍길동"></div>
+      <div><label class="form-label">연락처</label><input class="form-input" type="text" id="c-phone" placeholder="010-XXXX-XXXX"></div>
+      <div><label class="form-label">필요 수량 (kg)</label><input class="form-input" type="number" id="c-qty" placeholder="500"></div>
+      <div><label class="form-label">문의 내용</label><input class="form-input" type="text" id="c-msg" placeholder="납기, 절단 사양 등"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">취소</button>
+      <button class="btn btn-dark" onclick="sendContact()">문의 전송</button>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 SteelHub · 환봉 재고 거래 플랫폼 · 부산</footer>
+
+<script>
+const items=[
+  {id:1,grade:'316',spec:'φ50',qty:2300,price:5200,region:'부산 사상구',urgent:true,cut:'절단 가능',days:2,seller:'(주)동양금속'},
+  {id:2,grade:'304',spec:'φ30',qty:800,price:3800,region:'창원',urgent:false,cut:'절단 가능',days:5,seller:'한국스틸'},
+  {id:3,grade:'316',spec:'φ80',qty:1500,price:6100,region:'부산 강서구',urgent:false,cut:'정척만',days:3,seller:'부산금속유통'},
+  {id:4,grade:'304',spec:'φ100',qty:3200,price:4100,region:'김해',urgent:true,cut:'절단 가능',days:1,seller:'경남철강'},
+  {id:5,grade:'iron',spec:'φ40',qty:4500,price:1200,region:'양산',urgent:true,cut:'절단 가능',days:7,seller:'양산금속'},
+  {id:6,grade:'316',spec:'φ25',qty:620,price:5800,region:'울산',urgent:false,cut:'협의',days:4,seller:'울산스틸'},
+  {id:7,grade:'304',spec:'φ60',qty:1100,price:3600,region:'부산 북구',urgent:true,cut:'절단 가능',days:2,seller:'대한스틸'},
+  {id:8,grade:'iron',spec:'φ20',qty:2800,price:900,region:'창원 성산구',urgent:false,cut:'절단 가능',days:6,seller:'창원금속'},
+];
+function gl(g){return g==='316'?'STS 316':g==='304'?'STS 304':'일반철'}
+function gc(g){return g==='316'?'b316':g==='304'?'b304':'biron'}
+function renderCards(data){
+  const g=document.getElementById('cardGrid');
+  document.getElementById('result-count').textContent=data.length+'건의 재고';
+  if(!data.length){g.innerHTML='<p style="color:#aaa;font-size:14px;padding:2rem 0">검색 결과가 없습니다</p>';return}
+  g.innerHTML=data.map(i=>`
+    <div class="card">
+      <div class="card-top">
+        <span class="badge ${gc(i.grade)}">${gl(i.grade)}</span>
+        ${i.urgent?'<span class="urgent">🔥 긴급처분</span>':''}
+      </div>
+      <div class="card-title">${i.spec} 환봉</div>
+      <div class="card-meta">
+        <span>📍 ${i.region}</span>
+        <span>🏭 ${i.seller}</span>
+        <span>🕐 ${i.days}일 전</span>
+      </div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">수량</div><div class="spec-val">${i.qty.toLocaleString()} kg</div></div>
+        <div class="spec"><div class="spec-label">절단</div><div class="spec-val">${i.cut}</div></div>
+      </div>
+      <div class="card-footer">
+        <div class="price">${i.price.toLocaleString()}원<span> /kg</span></div>
+        <div class="card-actions">
+          <button class="btn-sm btn-contact" onclick="openModal(${i.id})">거래 문의</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function filterCards(){
+  const s=document.getElementById('searchInput').value.toLowerCase();
+  const gr=document.getElementById('gradeFilter').value;
+  const ur=document.getElementById('urgentFilter').value;
+  const so=document.getElementById('sortFilter').value;
+  let f=items.filter(i=>{
+    const ms=!s||i.spec.toLowerCase().includes(s)||i.region.toLowerCase().includes(s)||gl(i.grade).toLowerCase().includes(s);
+    return ms&&(!gr||i.grade===gr)&&(!ur||(ur==='urgent'&&i.urgent));
+  });
+  if(so==='price')f.sort((a,b)=>a.price-b.price);
+  else if(so==='qty')f.sort((a,b)=>b.qty-a.qty);
+  renderCards(f);
+}
+function openModal(id){
+  const i=items.find(x=>x.id===id);
+  document.getElementById('modal-info').textContent=`${gl(i.grade)} ${i.spec} · ${i.qty.toLocaleString()}kg · ${i.price.toLocaleString()}원/kg · ${i.region}`;
+  document.getElementById('contactModal').classList.add('open');
+}
+function closeModal(){document.getElementById('contactModal').classList.remove('open')}
+function sendContact(){
+  if(!document.getElementById('c-name').value||!document.getElementById('c-phone').value){alert('회사명과 연락처를 입력해주세요');return}
+  closeModal();alert('문의가 전송되었습니다. 판매자가 연락드립니다.');
+}
+function showTab(t){
+  ['market','request','post'].forEach(x=>{
+    document.getElementById('panel-'+x).classList.toggle('active',x===t);
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+  });
+}
+function submitPost(){
+  if(!document.getElementById('post-spec').value||!document.getElementById('post-qty').value){alert('필수 항목을 입력해주세요');return}
+  const s=document.getElementById('post-success');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),3000);
+}
+function submitRequest(){
+  if(!document.getElementById('req-spec').value||!document.getElementById('req-contact').value){alert('필수 항목을 입력해주세요');return}
+  const s=document.getElementById('req-success');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),3000);
+}
+renderCards(items);
+</script>
+</body>
+</html>
